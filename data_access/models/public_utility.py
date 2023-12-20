@@ -9,4 +9,4 @@ class Public_Utility(Base):
     email = Column(String(256), ForeignKey('Household.email'), primary_key=True)
     utilities_type = Column(String(250), nullable=False)
 
-    household = relationship("Household", back_populates="Public_Utilities")
+    Household = relationship("Household", back_populates="Public_Utilities")

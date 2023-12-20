@@ -8,4 +8,4 @@ class Manufacturer(Base):
     
     manufacturer_name = Column(String(256), primary_key=True, nullable=False)
 
-    appliance = relationship("Appliance", back_populates="Manufacturer")
+    Appliance = relationship("Appliance", back_populates="Manufacturer_Rel")

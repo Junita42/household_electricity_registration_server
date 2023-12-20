@@ -9,4 +9,4 @@ class Thermal(Base):
     thermal_type = Column(String(256), primary_key=True)
     setting = Column(Integer)
 
-    household = relationship("Household", back_populates="Thermal")
+    Household = relationship("Household", back_populates="Thermal")
