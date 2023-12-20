@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, CHAR
 from data_access.models.base_model import Base
 from sqlalchemy.orm import relationship
 
@@ -7,7 +7,7 @@ class Household(Base):
     
     email = Column(String(256), primary_key=True)
     type = Column(String(256),nullable=False)
-    postal = Column(String(256), ForeignKey('Valid_Postal.postal_code'), nullable=False)
+    postal = Column(CHAR(5), ForeignKey('Valid_Postal.postal_code'), nullable=False)
     sqft = Column(Integer, nullable=False)
     offgrid_flag = Column(Boolean, nullable=False)
 

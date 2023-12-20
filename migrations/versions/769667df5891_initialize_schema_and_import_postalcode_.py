@@ -1,8 +1,8 @@
-"""initialize tables
+"""initialize schema and import postalcode data
 
-Revision ID: a373b0c6d07f
+Revision ID: 769667df5891
 Revises: 
-Create Date: 2023-12-19 21:46:55.528249
+Create Date: 2023-12-20 14:58:32.347268
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'a373b0c6d07f'
+revision: str = '769667df5891'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,17 +25,17 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('manufacturer_name')
     )
     op.create_table('Valid_Postal',
-    sa.Column('postal_code', sa.String(length=256), nullable=False),
+    sa.Column('postal_code', sa.CHAR(length=5), nullable=False),
     sa.Column('city', sa.String(length=256), nullable=False),
     sa.Column('state', sa.String(length=256), nullable=False),
-    sa.Column('latitude', sa.Numeric(), nullable=True),
-    sa.Column('longitude', sa.Numeric(), nullable=True),
+    sa.Column('latitude', sa.DECIMAL(precision=10, scale=7), nullable=False),
+    sa.Column('longitude', sa.DECIMAL(precision=10, scale=7), nullable=False),
     sa.PrimaryKeyConstraint('postal_code')
     )
     op.create_table('Household',
     sa.Column('email', sa.String(length=256), nullable=False),
     sa.Column('type', sa.String(length=256), nullable=False),
-    sa.Column('postal', sa.String(length=256), nullable=False),
+    sa.Column('postal', sa.CHAR(length=5), nullable=False),
     sa.Column('sqft', sa.Integer(), nullable=False),
     sa.Column('offgrid_flag', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['postal'], ['Valid_Postal.postal_code'], ),
