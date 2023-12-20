@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from base_model import Base
+from data_access.models.base_model import Base
 from sqlalchemy.orm import relationship
 
 class Power_Generator(Base):
@@ -9,6 +9,6 @@ class Power_Generator(Base):
     seq_num = Column(Integer, primary_key=True)
     avg_kwatts_hr_per_month = Column(Integer, nullable=False)
     battery_storage = Column(Integer, nullable=True)
-    type = Column(String, nullable=False)
+    type = Column(String(256), nullable=False)
 
     Household = relationship("Household", back_populates="Power_Generator")

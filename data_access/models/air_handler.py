@@ -1,13 +1,16 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from base_model import Base
+from data_access.models.base_model import Base
 
 class Air_Handler(Base):
     __tablename__ = 'Air_Handler'
     
-    email = Column(String(256), ForeignKey('Household.email'), primary_key=True)
-    seq_num = Column(Integer, primary_key=True)
+    email = Column(String(256), ForeignKey('Appliance.email'), primary_key=True)
+    seq_num = Column(Integer, ForeignKey('Appliance.seq_num'), primary_key=True)
     RPM = Column(Integer, nullable=False)
-    
 
-    household = relationship("Household", back_populates="Air_Handler")
+    appliance = relationship("Appliance", back_populates="Air_Handler")
+    AC = relationship("AC", back_populates="air_handler")
+    Heater = relationship("Heater", back_populates="air_handler")
+    Heat_Pump = relationship("Heat_Pump", back_populates="air_handler")
+    
