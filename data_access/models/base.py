@@ -11,4 +11,4 @@ from data_access.models.public_utility import Public_Utility # noqa
 from data_access.models.thermal import Thermal # noqa
 from data_access.models.valid_postal import Valid_Postal # noqa
 from data_access.models.water_heater import Water_Heater # noqa
-from data_access.seed_data.import_postal_code import import_postal_codes # noqa
+# from data_access.seed_data.import_postal_code import import_postal_codes # noqa

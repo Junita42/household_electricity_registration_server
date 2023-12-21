@@ -6,7 +6,7 @@ class Household(Base):
     __tablename__ = 'Household'
     
     email = Column(String(256), primary_key=True)
-    type = Column(String(256),nullable=False)
+    household_type = Column(String(256),nullable=False)
     postal = Column(CHAR(5), ForeignKey('Valid_Postal.postal_code'), nullable=False)
     sqft = Column(Integer, nullable=False)
     offgrid_flag = Column(Boolean, nullable=False)

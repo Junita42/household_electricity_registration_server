@@ -10,7 +10,7 @@ class Water_Heater(Base):
     seq_num = Column(Integer, primary_key=True)
     tank_size = Column(DECIMAL(10, 1), nullable=False)
     energy_source = Column(String(256), nullable=False)
-    current_temp = Column(Integer, nullable=False)
+    current_temp = Column(Integer, nullable=True)
 
     __table_args__ = (
         ForeignKeyConstraint(

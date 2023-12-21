@@ -7,8 +7,8 @@ class Power_Generator(Base):
     
     email = Column(String(256), ForeignKey('Household.email'), primary_key=True)
     seq_num = Column(Integer, primary_key=True)
-    avg_kwatts_hr_per_month = Column(Integer, nullable=False)
+    kilowatt_hours = Column(Integer, nullable=False)
     battery_storage = Column(Integer, nullable=True)
-    type = Column(String(256), nullable=False)
+    energy_source = Column(String(256), nullable=False)
 
     Household = relationship("Household", back_populates="Power_Generator")
