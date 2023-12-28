@@ -7,6 +7,11 @@ app = FastAPI()
 
 origins = ["*"]
 
+@app.get("/")
+def root():
+    return {"message": "hello mundo"}
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

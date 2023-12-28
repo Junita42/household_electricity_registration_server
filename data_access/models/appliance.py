@@ -6,7 +6,7 @@ class Appliance(Base):
     __tablename__ = 'Appliance'
     
     email = Column(String(256), ForeignKey('Household.email'), primary_key=True)
-    seq_num = Column(Integer, primary_key=True)
+    seq_num = Column(Integer, primary_key=True, autoincrement=True)
     manufacturer = Column(String(256), ForeignKey("Manufacturer.manufacturer_name"), nullable=False)
     model_name = Column(String(256), nullable=True)
     BTU = Column(Integer, nullable=False)

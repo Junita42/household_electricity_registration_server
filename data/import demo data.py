@@ -165,7 +165,7 @@ def generate_water_heater_inserts(tsv_file_path, output_sql_file_path):
                 email = row['household_email'].replace("'", "''")
                 seq_num = row['appliance_number']
                 tank_size = row['tank_size']
-                energy_source = row['energy_source']
+                energy_source = row['energy_source'].replace(" ", "_")
                 current_temp = row['temperature'] if row['temperature'] else 'NULL'
             
                 sql_insert =f"INSERT INTO Water_Heater (email, seq_num, tank_size, energy_source, current_temp) VALUES ('{email}', {seq_num}, {tank_size}, '{energy_source}', {current_temp});\n"
