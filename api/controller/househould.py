@@ -1,9 +1,15 @@
 from typing import Any
-from data_access.models.db import db
+from sqlalchemy.orm import sessionmaker
+from main import engine
 from fastapi import HTTPException
 from api.schemas.household import AddHouseholdRequestBody, GetHouseholdResponse, VerifyEmail
 from api.server import app
 from data_access.models.household import Household
+
+Session = sessionmaker(bind=engine)
+
+@app.get("/household", response_model=GetHouseholdResponse)
+
 
 @app.get("/household/{email}", response_model=GetHouseholdResponse)
 def get_household_by_email(email: str):
