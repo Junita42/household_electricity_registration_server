@@ -1,6 +1,9 @@
 from typing import Any
-from api.schemas.household import AddHouseholdRequestBody, GetHouseholdResponse
+from data_access.models.db import db
+from fastapi import HTTPException
+from api.schemas.household import AddHouseholdRequestBody, GetHouseholdResponse, VerifyEmail
 from api.server import app
+from data_access.models.household import Household
 
 @app.get("/household/{email}", response_model=GetHouseholdResponse)
 def get_household_by_email(email: str):
@@ -22,13 +25,13 @@ def add_household(household: Any):
                                 offgrid_flag=household.offgrid_flag)
 
 
-# @app.get("/verify_email", response_model=verifyEmail)
-# def verify_email(email: str):
-#     """
-#     Verify if an email exists in the Household database.
-#     """
-#     household = db.query(Household).filter(Household.email == email).first()
-#     if not household:
-#         raise HTTPException(status_code=404, detail="Email not found")
+@app.get("/verify_email", response_model=VerifyEmail)
+def verify_email(email: str):
+    """
+    Verify if an email exists in the Household database.
+    """
+    household = db.query(Household).filter(Household.email == email).first()
+    if not household:
+        raise HTTPException(status_code=404, detail="Email not found")
 
-#     return verifyEmail(email=email)
+    return VerifyEmail(email=email)

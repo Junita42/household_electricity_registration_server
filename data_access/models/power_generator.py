@@ -6,7 +6,7 @@ class Power_Generator(Base):
     __tablename__ = 'Power_Generator'
     
     email = Column(String(256), ForeignKey('Household.email'), primary_key=True)
-    seq_num = Column(Integer, primary_key=True)
+    seq_num = Column(Integer, primary_key=True, autoincrement=True)
     kilowatt_hours = Column(Integer, nullable=False)
     battery_storage = Column(Integer, nullable=True)
     energy_source = Column(String(256), nullable=False)

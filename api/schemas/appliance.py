@@ -1,21 +1,11 @@
 from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
-
+from api.schemas.manufacturer import ManufactureEnum
 # 1. add appliance
 
 # Define validations for the fields having limited choices 
-# Read manufacturers from the TSV file
-def read_manufacturers_from_tsv(file_path):
-    with open(file_path, 'r') as file:
-        return [line.strip() for line in file.readlines()]
 
-# Path to your TSV file
-tsv_file_path = '/electricity_fastapi/data/Demo_Data/Manufacturer.tsv'
-
-# Create the Enum class
-ManufactureEnum = Enum('ManufactureEnum', {name.upper().replace(" ", "_"): 
-    name for name in read_manufacturers_from_tsv(tsv_file_path)})
 
 class applianceEnum(str, Enum):
     air_handler = "air handler"

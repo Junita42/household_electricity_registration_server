@@ -1,5 +1,4 @@
 import csv
-
 def generate_sql_inserts(csv_filepath, sql_filepath):
     with open(csv_filepath, 'r') as csvfile, open(sql_filepath, 'w') as sqlfile:
         reader = csv.reader(csvfile)
@@ -8,6 +7,9 @@ def generate_sql_inserts(csv_filepath, sql_filepath):
         for row in reader:
             try:
                 postal_code, city, state, latitude, longitude = row
+                # Replace single quotes with two single quotes for SQL
+                city = city.replace("'", "''")
+
                 sql = f"INSERT INTO Valid_Postal (postal_code, city, state, latitude, longitude) VALUES ('{postal_code}', '{city}', '{state}', {latitude}, {longitude});\n"
                 sqlfile.write(sql)
             except Exception as e:
@@ -18,14 +20,14 @@ if __name__ == "__main__":
     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/postal_codes_inserts.sql'
     generate_sql_inserts(csv_path, sql_path)
 
-import csv
+
 def generate_household_inserts(tsv_file_path, output_sql_file_path):
     with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
         reader = csv.DictReader(tsv_file, delimiter='\t')
 
         for row in reader:
             email = row['email'].replace("'", "''")  # Escape single quotes
-            household_type = row['household_type']
+            household_type = row['household_type'].replace(" ", "_")
             postal = row['postal_code']
             sqft = row['footage']
             offgrid_flag = 1 if row['utilities'] else 0
