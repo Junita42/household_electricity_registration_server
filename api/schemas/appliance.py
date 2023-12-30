@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, str
 from typing import Optional, List
 from api.schemas.manufacturer import ManufactureEnum
 # 1. add appliance
@@ -27,7 +27,7 @@ class energySourceEnum(str, Enum):
 
 # Define the request body    
 class AddApplianceRequestBody(BaseModel):
-     email: EmailStr
+     email: str
      manufacture: ManufactureEnum
      model_name: Optional[str]
      BTU: int
@@ -57,7 +57,7 @@ class ApplianceResponse(BaseModel):
 
 # define the delete appliance request body
 class DeleteAppliance(BaseModel):
-    email: EmailStr
+    email: str
     seq_num: int
     
   

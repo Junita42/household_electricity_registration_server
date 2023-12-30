@@ -1,35 +1,13 @@
 from typing import Any
-from sqlalchemy.orm import sessionmaker, Session
-from main import CheckEmailRequestBody, engine
+from sqlalchemy.orm import  Session
+from api.controller.depends import get_db
+from main import app
 from fastapi import HTTPException
 from api.schemas.household import AddHouseholdRequestBody, HouseholdResponse, VerifyEmail
-from api.server import app
+from main import app
 from data_access.models.household import Household
-from pydantic import EmailStr
-from fastapi import Depends, FastAPI
 
-app = FastAPI()
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# @app.post("/emails", response_model=VerifyEmail)
-# async def check_email(email: str, db: Session = Depends(get_db)):
-#     print(email.email)
-#     # # check email in db
-#     household = db.query(Household).filter(Household.email == email).first()
-   
-#     if household is None: 
-#         raise HTTPException(status_code=404, detail="Email not found")
-    
-#     return {"email": email, "is_exist": bool(household)}
+from fastapi import Depends
 
 
 @app.post('/household', response_model=HouseholdResponse)
@@ -67,7 +45,7 @@ def verify_email(email: str, db: Session = Depends(get_db)):
     # return VerifyEmail(email=email)
 
 # @app.get("/verify_email", response_model=VerifyEmail)
-# def verify_email(email: EmailStr):
+# def verify_email(email: str):
 #     """
 #     Verify if an email exists in the Household database.
 #     """

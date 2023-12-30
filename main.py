@@ -1,48 +1,18 @@
 from fastapi import FastAPI
-from database import connect
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 origins = ["*"]
 
-@app.get("/")
-def root():
-    return {"message": "hello mundo"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-class CheckEmailRequestBody(BaseModel):
-    email: str
-
-# endpoint to check email existance
-# @app.post("/emails")
-# async def check_email(body: CheckEmailRequestBody):
-#     print(body.email)
-#     # # check email in db
-#     # conn = connect()
-#     # cursor = conn.cursor()
-#     # query = "SELECT * FROM Household WHERE email = %s"
-#     # cursor.execute(query, (body.email,))
-#     # email_exists = cursor.fetchone() is not None
-
-#     # # Close the connection
-#     # cursor.close()
-#     # conn.close()
-
-#     return {"email": body.email, "is_exist": email_exists}
-
-
-from sqlalchemy import create_engine
-from sqlalchemy.sql import text
-
-engine = create_engine("mysql+mysqlconnector://root:@localhost:3306/household_electricity")
-
+import api.controller.manufacturer # noqa
+import api.controller.househould # noqa

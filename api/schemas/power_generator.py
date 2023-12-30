@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, str
 from enum import Enum
 
 class EnergySourceEnum(str, Enum):
@@ -7,7 +7,7 @@ class EnergySourceEnum(str, Enum):
     
     
 class AddPowerGenerationRequestBody(BaseModel):
-    email: EmailStr
+    email: str
     battery_storage: int
     kilowatt_hour: int
     energy_source: EnergySourceEnum

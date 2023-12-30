@@ -30,10 +30,9 @@ def generate_household_inserts(tsv_file_path, output_sql_file_path):
             household_type = row['household_type'].replace(" ", "_")
             postal = row['postal_code']
             sqft = row['footage']
-            public_utility = row['utilities']
-            offgrid_flag = 1 if row['utilities'] else 0
+            public_utilities = row['utilities']
 
-            sql_insert = f"INSERT INTO Household (email, household_type, postal, sqft, public_utility, offgrid_flag) VALUES ('{email}', '{household_type}', '{postal}', {sqft},'{public_utility}', {offgrid_flag});\n"
+            sql_insert = f"INSERT INTO Household (email, household_type, postal, sqft, public_utilities) VALUES ('{email}', '{household_type}', '{postal}', {sqft},'{public_utilities}');\n"
             sql_file.write(sql_insert)
 
 if __name__ == "__main__":
@@ -240,7 +239,6 @@ if __name__ == "__main__":
         '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_heatpump.sql',
         '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_heater.sql',
         '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_power_generator.sql',  
-        '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_public_utility.sql', 
     ]
     combined_file_path ='/Users/junita/Documents/projects/electricity_fastapi/data/demo_data.sql'
 

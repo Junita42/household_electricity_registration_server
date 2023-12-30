@@ -1,11 +1,11 @@
 
 from enum import Enum
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional, List
 
 #1. veryfy email
 class VerifyEmail(BaseModel):
-    email: EmailStr
+    email: str
 
 #2. veryfy postal code
 class VerifyPostalCode(BaseModel):
@@ -21,22 +21,22 @@ class HouseholdTypeEnum(str, Enum):
     modular_home = "modular home"
     house = "house"
 class AddHouseholdRequestBody(BaseModel):
-    email: EmailStr
+    email: str
     postal: str
     sqft: int
     household_type: HouseholdTypeEnum
-    public_utilities: str
+    public_utilities: Optional[str]
 
 
 class HouseholdResponse(BaseModel):
-    email: EmailStr
+    email: str
     postal: str
     sqft: int
     household_type: HouseholdTypeEnum
-    public_utilities: str
+    public_utilities: Optional[str]
 
 
 class DeleteHousehold(BaseModel):
-    email: EmailStr
+    email: str
 
 
