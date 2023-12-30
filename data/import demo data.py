@@ -30,9 +30,10 @@ def generate_household_inserts(tsv_file_path, output_sql_file_path):
             household_type = row['household_type'].replace(" ", "_")
             postal = row['postal_code']
             sqft = row['footage']
+            public_utility = row['utilities']
             offgrid_flag = 1 if row['utilities'] else 0
 
-            sql_insert = f"INSERT INTO Household (email, household_type, postal, sqft, offgrid_flag) VALUES ('{email}', '{household_type}', '{postal}', {sqft}, {offgrid_flag});\n"
+            sql_insert = f"INSERT INTO Household (email, household_type, postal, sqft, public_utility, offgrid_flag) VALUES ('{email}', '{household_type}', '{postal}', {sqft},'{public_utility}', {offgrid_flag});\n"
             sql_file.write(sql_insert)
 
 if __name__ == "__main__":
@@ -79,7 +80,6 @@ if __name__ == "__main__":
 
     generate_manufacturer_inserts(tsv_path, sql_path)
 
-import csv
 
 def generate_air_handler_inserts(tsv_file_path, output_sql_file_path):
     with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
@@ -201,23 +201,23 @@ if __name__ == "__main__":
     
     generate_power_generator_inserts(tsv_path, sql_path)
 
-def generate_public_utility_inserts(tsv_file_path, output_sql_file_path):
-    with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
-        reader = csv.DictReader(tsv_file, delimiter='\t')
-        next(reader)  # Skip the header row
+# def generate_public_utility_inserts(tsv_file_path, output_sql_file_path):
+#     with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
+#         reader = csv.DictReader(tsv_file, delimiter='\t')
+#         next(reader)  # Skip the header row
 
-        for row in reader:
-            email = row['email'].replace("'", "''")  # Escape single quotes
-            utilities_type =row['utilities']
+#         for row in reader:
+#             email = row['email'].replace("'", "''")  # Escape single quotes
+#             utilities_type =row['utilities']
 
-            sql_insert = f"INSERT INTO Public_Utilities (email, utilities_type) VALUES ('{email}', '{utilities_type}');\n"        
-            sql_file.write(sql_insert)
+#             sql_insert = f"INSERT INTO Public_Utilities (email, utilities_type) VALUES ('{email}', '{utilities_type}');\n"        
+#             sql_file.write(sql_insert)
 
-if __name__ == "__main__":
-    tsv_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data/Household.tsv'
-    sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_public_utility.sql'
+# if __name__ == "__main__":
+#     tsv_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data/Household.tsv'
+#     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_public_utility.sql'
     
-    generate_public_utility_inserts(tsv_path, sql_path)
+#     generate_public_utility_inserts(tsv_path, sql_path)
 
 
 

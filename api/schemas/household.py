@@ -1,4 +1,5 @@
 
+from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
@@ -24,15 +25,15 @@ class AddHouseholdRequestBody(BaseModel):
     postal: str
     sqft: int
     household_type: HouseholdTypeEnum
-    offgrid_flag: bool
+    public_utilities: str
 
 
-class GetHouseholdResponse(BaseModel):
+class HouseholdResponse(BaseModel):
     email: EmailStr
     postal: str
     sqft: int
     household_type: HouseholdTypeEnum
-    offgrid_flag: bool
+    public_utilities: str
 
 
 class DeleteHousehold(BaseModel):

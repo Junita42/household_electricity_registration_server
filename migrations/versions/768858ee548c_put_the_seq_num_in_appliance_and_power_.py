@@ -1,8 +1,8 @@
-"""initialize tables
+"""put the seq_num in appliance and power_generater to the first element of composit key
 
-Revision ID: 270c12f17116
+Revision ID: 768858ee548c
 Revises: 
-Create Date: 2023-12-20 19:30:31.887728
+Create Date: 2023-12-29 17:53:06.482269
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '270c12f17116'
+revision: str = '768858ee548c'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -34,37 +34,31 @@ def upgrade() -> None:
     )
     op.create_table('Household',
     sa.Column('email', sa.String(length=256), nullable=False),
-    sa.Column('type', sa.String(length=256), nullable=False),
+    sa.Column('household_type', sa.String(length=256), nullable=False),
     sa.Column('postal', sa.CHAR(length=5), nullable=False),
     sa.Column('sqft', sa.Integer(), nullable=False),
-    sa.Column('offgrid_flag', sa.Boolean(), nullable=False),
+    sa.Column('public_utilities', sa.String(length=256), nullable=True),
     sa.ForeignKeyConstraint(['postal'], ['Valid_Postal.postal_code'], ),
     sa.PrimaryKeyConstraint('email')
     )
     op.create_table('Appliance',
+    sa.Column('seq_num', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('email', sa.String(length=256), nullable=False),
-    sa.Column('seq_num', sa.Integer(), nullable=False),
     sa.Column('manufacturer', sa.String(length=256), nullable=False),
     sa.Column('model_name', sa.String(length=256), nullable=True),
     sa.Column('BTU', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['email'], ['Household.email'], ),
     sa.ForeignKeyConstraint(['manufacturer'], ['Manufacturer.manufacturer_name'], ),
-    sa.PrimaryKeyConstraint('email', 'seq_num')
+    sa.PrimaryKeyConstraint('seq_num', 'email')
     )
     op.create_table('Power_Generator',
+    sa.Column('seq_num', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('email', sa.String(length=256), nullable=False),
-    sa.Column('seq_num', sa.Integer(), nullable=False),
-    sa.Column('avg_kwatts_hr_per_month', sa.Integer(), nullable=False),
+    sa.Column('kilowatt_hours', sa.Integer(), nullable=False),
     sa.Column('battery_storage', sa.Integer(), nullable=True),
-    sa.Column('type', sa.String(length=256), nullable=False),
+    sa.Column('energy_source', sa.String(length=256), nullable=False),
     sa.ForeignKeyConstraint(['email'], ['Household.email'], ),
-    sa.PrimaryKeyConstraint('email', 'seq_num')
-    )
-    op.create_table('Public_Utilities',
-    sa.Column('email', sa.String(length=256), nullable=False),
-    sa.Column('utilities_type', sa.String(length=250), nullable=False),
-    sa.ForeignKeyConstraint(['email'], ['Household.email'], ),
-    sa.PrimaryKeyConstraint('email')
+    sa.PrimaryKeyConstraint('seq_num', 'email')
     )
     op.create_table('Thermal',
     sa.Column('email', sa.String(length=256), nullable=False),
@@ -85,7 +79,7 @@ def upgrade() -> None:
     sa.Column('seq_num', sa.Integer(), nullable=False),
     sa.Column('tank_size', sa.DECIMAL(precision=10, scale=1), nullable=False),
     sa.Column('energy_source', sa.String(length=256), nullable=False),
-    sa.Column('current_temp', sa.Integer(), nullable=False),
+    sa.Column('current_temp', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['email', 'seq_num'], ['Appliance.email', 'Appliance.seq_num'], ),
     sa.PrimaryKeyConstraint('email', 'seq_num')
     )
@@ -122,7 +116,6 @@ def downgrade() -> None:
     op.drop_table('Water_Heater')
     op.drop_table('Air_Handler')
     op.drop_table('Thermal')
-    op.drop_table('Public_Utilities')
     op.drop_table('Power_Generator')
     op.drop_table('Appliance')
     op.drop_table('Household')
