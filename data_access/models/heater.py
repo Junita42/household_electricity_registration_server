@@ -3,7 +3,7 @@ from data_access.models.base_model import Base
 from sqlalchemy.orm import relationship
 
 class Heater(Base):
-    __tablename__ = 'Heater'
+    __tablename__ = 'heater'
     
     email = Column(String(256), primary_key=True)
     air_handler_seq_num = Column(Integer, primary_key=True)
@@ -12,7 +12,7 @@ class Heater(Base):
     __table_args__ = (
         ForeignKeyConstraint(
             ['email', 'air_handler_seq_num'], 
-            ['Air_Handler.email', 'Air_Handler.seq_num']
+            ['air_handler.email', 'air_handler.seq_num']
         ),
     )
-    Air_Handler = relationship("Air_Handler", back_populates="Heater")
+    air_handler = relationship("Air_Handler", back_populates="heater")

@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 
 
 class Water_Heater(Base):
-    __tablename__ = 'Water_Heater'
+    __tablename__ = 'water_heater'
     
     email = Column(String(256), primary_key=True)
     seq_num = Column(Integer, primary_key=True)
@@ -15,8 +15,8 @@ class Water_Heater(Base):
     __table_args__ = (
         ForeignKeyConstraint(
             ['email', 'seq_num'], 
-            ['Appliance.email', 'Appliance.seq_num']
+            ['appliance.email', 'appliance.seq_num']
         ),
     )
     
-    Appliance = relationship("Appliance", back_populates="Water_Heater")
+    appliance = relationship("Appliance", back_populates="water_heater")

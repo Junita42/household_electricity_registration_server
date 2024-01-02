@@ -3,18 +3,18 @@ from sqlalchemy.orm import relationship
 from data_access.models.base_model import Base
 
 class Appliance(Base):
-    __tablename__ = 'Appliance'
+    __tablename__ = 'appliance'
     
     seq_num = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String(256), ForeignKey('Household.email'), primary_key=True)
-    manufacturer = Column(String(256), ForeignKey("Manufacturer.manufacturer_name"), nullable=False)
+    email = Column(String(256), ForeignKey('household.email'), primary_key=True)
+    manufacturer = Column(String(256), ForeignKey("manufacturer.manufacturer_name"), nullable=False)
     model_name = Column(String(256), nullable=True)
     BTU = Column(Integer, nullable=False)
     
     
 
-    Household = relationship("Household", back_populates="Appliance")
-    Air_Handler = relationship("Air_Handler", back_populates="Appliance")
-    Water_Heater = relationship("Water_Heater", back_populates="Appliance")
-    Manufacturer_Rel = relationship("Manufacturer", back_populates="Appliance")
+    household = relationship("Household", back_populates="appliance")
+    air_handler = relationship("Air_Handler", back_populates="appliance")
+    water_heater = relationship("Water_Heater", back_populates="appliance")
+    manufacturer_rel = relationship("Manufacturer", back_populates="appliance")
 

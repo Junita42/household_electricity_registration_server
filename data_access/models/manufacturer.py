@@ -4,8 +4,8 @@ from sqlalchemy.orm import relationship
 
 
 class Manufacturer(Base):
-    __tablename__ = 'Manufacturer'
+    __tablename__ = 'manufacturer'
     
     manufacturer_name = Column(String(256), primary_key=True, nullable=False)
 
-    Appliance = relationship("Appliance", back_populates="Manufacturer_Rel")
+    appliance = relationship("Appliance", back_populates="manufacturer_rel")

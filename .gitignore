@@ -1,8 +1,2 @@
-.env
-env/
-__pycache__/
-.DS_Store
 
-/data/ 
-/data/query_file/
 

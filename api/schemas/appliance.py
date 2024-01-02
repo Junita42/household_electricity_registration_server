@@ -33,7 +33,7 @@ class AddApplianceRequestBody(BaseModel):
      BTU: int
      appliance_type: applianceEnum
      if appliance_type == 'air_handler':
-         air_handler_type: List[airHandlerEnum]
+         air_handler_type: airHandlerEnum
          RPM: int
          if "Air_conditioner" in air_handler_type:
              EER: int

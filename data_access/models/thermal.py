@@ -5,8 +5,8 @@ from sqlalchemy.orm import relationship
 class Thermal(Base):
     __tablename__ = 'Thermal'
     
-    email = Column(String(256), ForeignKey('Household.email'),primary_key=True)
+    email = Column(String(256), ForeignKey('household.email'),primary_key=True)
     thermal_type = Column(String(256), primary_key=True)
     setting = Column(Integer)
 
-    Household = relationship("Household", back_populates="Thermal")
+    household = relationship("Household", back_populates="thermal")
