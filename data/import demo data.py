@@ -76,10 +76,10 @@ def generate_appliance_inserts(tsv_file_path, output_sql_file_path):
             email = row['household_email'].replace("'", "''")  # Escape single quotes
             seq_num = row['appliance_number']
             manufacturer = row['manufacturer_name'].replace("'", "''")
-            model_name = row['model'].replace("'", "''") if row['model'] else ''
+            electricity_model = row['model'].replace("'", "''") if row['model'] else ''
             btu = row['btu']
 
-            sql_insert = f"INSERT INTO Appliance (email, seq_num, manufacturer, model_name, BTU) VALUES ('{email}', {seq_num}, '{manufacturer}', '{model_name}', {btu});\n"
+            sql_insert = f"INSERT INTO Appliance (email, seq_num, manufacturer, electricity_model, BTU) VALUES ('{email}', {seq_num}, '{manufacturer}', '{electricity_model}', {btu});\n"
             sql_file.write(sql_insert)
 
 if __name__ == "__main__":

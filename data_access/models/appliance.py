@@ -5,10 +5,10 @@ from data_access.models.base_model import Base
 class Appliance(Base):
     __tablename__ = 'appliance'
     
-    seq_num = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(256), ForeignKey('household.email'), primary_key=True)
+    seq_num = Column(Integer, primary_key=True)
     manufacturer = Column(String(256), ForeignKey("manufacturer.manufacturer_name"), nullable=False)
-    model_name = Column(String(256), nullable=True)
+    electricity_model = Column(String(256), nullable=True)
     BTU = Column(Integer, nullable=False)
     
     

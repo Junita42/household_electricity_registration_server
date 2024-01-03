@@ -15,4 +15,5 @@ app.add_middleware(
 )
 
 import api.controller.manufacturer # noqa
-import api.controller.househould # noqa
+import api.controller.household # noqa
+import api.controller.appliance # noqa
