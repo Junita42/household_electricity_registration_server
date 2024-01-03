@@ -3,7 +3,7 @@ from data_access.models.base_model import Base
 from sqlalchemy.orm import relationship
 
 class Thermal(Base):
-    __tablename__ = 'Thermal'
+    __tablename__ = 'thermal'
     
     email = Column(String(256), ForeignKey('household.email'),primary_key=True)
     thermal_type = Column(String(256), primary_key=True)

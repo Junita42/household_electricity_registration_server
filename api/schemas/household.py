@@ -1,7 +1,9 @@
 
 from enum import Enum
+from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional, List
+from api.schemas.thermal import AddThermalHeatingRequestBody, AddThermalCoolingRequestBody
 
 #1. veryfy email
 class VerifyEmail(BaseModel):
@@ -12,7 +14,9 @@ class VerifyPostalCode(BaseModel):
     postal: str
 
 #3. add household 
-
+class ThermalTypeEnum(str, Enum):
+    heating = "heating"
+    cooling = "cooling"
 class HouseholdTypeEnum(str, Enum):
     townhome = "townhome"
     apartment = "apartment"
@@ -20,12 +24,14 @@ class HouseholdTypeEnum(str, Enum):
     condominium = "condominium"
     modular_home = "modular home"
     house = "house"
+
 class AddHouseholdRequestBody(BaseModel):
     email: str
     postal: str
     sqft: int
     household_type: HouseholdTypeEnum
     public_utilities: Optional[str]
+
 
 
 class HouseholdResponse(BaseModel):
@@ -36,7 +42,11 @@ class HouseholdResponse(BaseModel):
     public_utilities: Optional[str]
 
 
+
 class DeleteHousehold(BaseModel):
     email: str
 
-
+class CombinedRequestBody(BaseModel):
+    household: AddHouseholdRequestBody
+    thermal_heating: Optional[AddThermalHeatingRequestBody]   
+    thermal_cooling: Optional[AddThermalCoolingRequestBody]

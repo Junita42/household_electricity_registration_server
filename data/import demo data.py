@@ -9,6 +9,7 @@ def generate_sql_inserts(csv_filepath, sql_filepath):
                 postal_code, city, state, latitude, longitude = row
                 # Replace single quotes with two single quotes for SQL
                 city = city.replace("'", "''")
+                postal_code = str(postal_code)
 
                 sql = f"INSERT INTO Valid_Postal (postal_code, city, state, latitude, longitude) VALUES ('{postal_code}', '{city}', '{state}', {latitude}, {longitude});\n"
                 sqlfile.write(sql)
@@ -40,6 +41,31 @@ if __name__ == "__main__":
     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_household.sql'
 
     generate_household_inserts(tsv_path, sql_path)
+
+def generate_thermal_inserts(tsv_file_path, output_sql_file_path):
+    with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
+        reader = csv.DictReader(tsv_file, delimiter='\t')
+
+        for row in reader:
+            email = row['email'].replace("'", "''")  # Escape single quotes
+            
+            if row.get('heating_temp'):
+                thermal_type = "heating"
+                setting = row['heating_temp']
+                sql_insert = f"INSERT INTO thermal (email, thermal_type, setting) VALUES ('{email}', '{thermal_type}', {setting});\n"
+                sql_file.write(sql_insert)
+            
+            if row.get('cooling_temp'):
+                thermal_type = "cooling"
+                setting = row['cooling_temp']
+                sql_insert = f"INSERT INTO thermal (email, thermal_type, setting) VALUES ('{email}', '{thermal_type}', {setting});\n" 
+                sql_file.write(sql_insert)
+
+if __name__ == "__main__":
+    tsv_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data/Household.tsv'
+    sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_thermal.sql'
+
+    generate_thermal_inserts(tsv_path, sql_path)
 
 
 def generate_appliance_inserts(tsv_file_path, output_sql_file_path):
@@ -199,24 +225,6 @@ if __name__ == "__main__":
     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_power_generator.sql'
     
     generate_power_generator_inserts(tsv_path, sql_path)
-
-# def generate_public_utility_inserts(tsv_file_path, output_sql_file_path):
-#     with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
-#         reader = csv.DictReader(tsv_file, delimiter='\t')
-#         next(reader)  # Skip the header row
-
-#         for row in reader:
-#             email = row['email'].replace("'", "''")  # Escape single quotes
-#             utilities_type =row['utilities']
-
-#             sql_insert = f"INSERT INTO Public_Utilities (email, utilities_type) VALUES ('{email}', '{utilities_type}');\n"        
-#             sql_file.write(sql_insert)
-
-# if __name__ == "__main__":
-#     tsv_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data/Household.tsv'
-#     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_public_utility.sql'
-    
-#     generate_public_utility_inserts(tsv_path, sql_path)
 
 
 

@@ -15,8 +15,8 @@ def get_unique_values(tsv_file_path, column_names):
 
 
 if __name__ == "__main__":
-    tsv_path = './data/Demo_Data/Power.tsv'
-    column_names = ['energy_source']
+    tsv_path = './data/Demo_Data/Household.tsv'
+    column_names = ['thermal_type']
     unique_values = get_unique_values(tsv_path, column_names)
 
     for col, values in unique_values.items():

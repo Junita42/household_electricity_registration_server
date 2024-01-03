@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 class Valid_Postal(Base):
     __tablename__ = 'valid_postal'
     
-    postal_code = Column(CHAR(5), primary_key=True)
+    postal_code = Column(String(5), primary_key=True)
     city = Column(String(256), nullable=False)
     state = Column(String(256), nullable=False)
     latitude = Column(DECIMAL(10,7), nullable=False)
