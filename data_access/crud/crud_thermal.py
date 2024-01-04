@@ -14,7 +14,7 @@ CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 
 
 class CRUDThermalHeating(CRUDBase[Thermal, AddThermalHeatingRequestBody]):
-    def create_thermal(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+    def create_thermal(self, db: Session, *, obj_in: CreateSchemaType) -> Thermal:
 
         if obj_in.heating:
             heating_obj = Thermal(

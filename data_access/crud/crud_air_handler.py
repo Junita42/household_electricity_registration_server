@@ -7,26 +7,25 @@ from api.schemas.appliance import AddApplianceRequestBody, DeleteAppliance
 
 
 
-class CRUDAppliance(CRUDBase[Air_Handler, AddApplianceRequestBody]):
-    def creatAppliance(self, db: Session, *, obj_in: AddApplianceRequestBody) -> Appliance:
+class CRUDAirHandler(CRUDBase[Air_Handler, AddApplianceRequestBody]):
+    def createAirHandler(self, db: Session, *, obj_in: AddApplianceRequestBody) -> Air_Handler:
         
-        appliance_obj = Air_Handler(
+        air_handler_obj = Air_Handler(
             email=obj_in.email,
-            manufacture=obj_in.manufacturer,
-            electricity_model=obj_in.electricity_model,
-            BTU = obj_in.BTU,
+            seq_num=obj_in.seq_num,
+            RPM=obj_in.RPM,
         )
-        db.add(appliance_obj)
+        db.add(air_handler_obj)
         db.commit()
-        db.refresh(appliance_obj)
-        return appliance_obj
+        db.refresh(air_handler_obj)
+        return air_handler_obj
     
-    def deleteAppliance(self, db: Session, *, obj_in: DeleteAppliance) -> Appliance:
-        appliance_obj = db.query(Appliance).filter(Appliance.email == obj_in.email, 
-                                                   Appliance.seq_num == obj_in.seq_num).first()
-        db.delete(appliance_obj)
+    def deleteAirHandler(self, db: Session, *, obj_in: DeleteAppliance) -> Air_Handler:
+        air_handler_obj = db.query(Air_Handler).filter(Air_Handler.email == obj_in.email, 
+                                                   Air_Handler.seq_num == obj_in.seq_num).first()
+        db.delete(air_handler_obj)
         db.commit()
-        return appliance_obj
+        return air_handler_obj
     
     
-appliance_Manager = CRUDAppliance(Appliance)
+air_handler_Manager = CRUDAirHandler(Air_Handler)

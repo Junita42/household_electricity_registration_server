@@ -33,7 +33,6 @@ class AddApplianceRequestBody(BaseModel):
     electricity_model: Optional[str] 
     BTU: int
     appliance_type: applianceEnum
-    air_handler_type: Optional[str] = None
     RPM: Optional[int] = None
     EER: Optional[int] = None
     energy_source: Optional[HeaterEnergySourceEnum] = None
