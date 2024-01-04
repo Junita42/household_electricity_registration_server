@@ -55,6 +55,7 @@ class ApplianceResponse(BaseModel):
 class DeleteAppliance(BaseModel):
     email: str
     seq_num: int
+    appliance_type: applianceEnum
     
   
 
