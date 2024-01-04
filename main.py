@@ -17,3 +17,4 @@ app.add_middleware(
 import api.controller.manufacturer # noqa
 import api.controller.household # noqa
 import api.controller.appliance # noqa
+import api.controller.power_generator # noqa

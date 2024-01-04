@@ -44,6 +44,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         
         return obj
 
+
     # def update(
     #     self,
     #     db: Session,

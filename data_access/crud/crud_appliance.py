@@ -1,9 +1,8 @@
 from sqlalchemy.orm import Session
-from fastapi.encoders import jsonable_encoder
 
 from data_access.crud.base import CRUDBase
 from data_access.models.appliance import Appliance
-from api.schemas.appliance import AddApplianceRequestBody, DeleteAppliance,getApplianceByEmailRequestBody
+from api.schemas.appliance import AddApplianceRequestBody, DeleteAppliance
 
 
 

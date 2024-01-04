@@ -6,27 +6,27 @@ from data_access.models.power_generator import Power_Generator
 from api.schemas.power_generator import AddPowerGeneratorRequestBody, DeletePowerGenerator
 
 
-class CRUDAppliance(CRUDBase[Power_Generator, AddPowerGeneratorRequestBody]):
-    def createAppliance(self, db: Session, *, obj_in: AddPowerGeneratorRequestBody) -> Appliance:
+class CRUDPowerGenerator(CRUDBase[Power_Generator, AddPowerGeneratorRequestBody]):
+    def createPowerGenerator(self, db: Session, *, obj_in: AddPowerGeneratorRequestBody) -> Power_Generator:
         
         appliance_obj = Power_Generator(
             email=obj_in.email,
             seq_num=obj_in.seq_num,
-            manufacturer=obj_in.manufacturer.value,
-            electricity_model=obj_in.electricity_model,
-            BTU = obj_in.BTU,
+            battery_storage=obj_in.battery_storage,
+            kilowatt_hours=obj_in.kilowatt_hours,
+            energy_source=obj_in.energy_source,
         )
         db.add(appliance_obj)
         db.commit()
         db.refresh(appliance_obj)
         return appliance_obj
     
-    def deleteAppliance(self, db: Session, *, obj_in: DeleteAppliance) -> Appliance:
-        appliance_obj = db.query(Appliance).filter(Appliance.email == obj_in.email, 
-                                                   Appliance.seq_num == obj_in.seq_num).first()
+    def deletePowerGenerator(self, db: Session, *, obj_in: DeletePowerGenerator) -> Power_Generator:
+        appliance_obj = db.query(Power_Generator).filter(Power_Generator.email == obj_in.email, 
+                                                   Power_Generator.seq_num == obj_in.seq_num).first()
         db.delete(appliance_obj)
         db.commit()
         return appliance_obj
     
     
-appliance_Manager = CRUDAppliance(Appliance)
+power_generator_Manager = CRUDPowerGenerator(Power_Generator)

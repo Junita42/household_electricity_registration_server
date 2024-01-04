@@ -1,4 +1,4 @@
-from pydantic import BaseModel, str
+from pydantic import BaseModel
 from enum import Enum
 
 class EnergySourceEnum(str, Enum):
@@ -6,20 +6,22 @@ class EnergySourceEnum(str, Enum):
     wind_turbine = "wind-turbine"
     
     
-class AddPowerGenerationRequestBody(BaseModel):
+class AddPowerGeneratorRequestBody(BaseModel):
     email: str
-    battery_storage: int
-    kilowatt_hour: int
-    energy_source: EnergySourceEnum
-    
-class addPowerGenerationResponse(BaseModel):
     seq_num: int
     battery_storage: int
-    kilowatt_hour: int
+    kilowatt_hours: int
+    energy_source: EnergySourceEnum
+    
+class addPowerGeneratorResponse(BaseModel):
+    email: str
+    seq_num: int
+    battery_storage: int
+    kilowatt_hours: int
     energy_source: EnergySourceEnum
     
     
-class DeletePowerGeneration(BaseModel):
+class DeletePowerGenerator(BaseModel):
     email: str
     seq_num: int
     

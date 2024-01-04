@@ -6,7 +6,7 @@ from fastapi import Depends, HTTPException
 from api.schemas.appliance import AddApplianceRequestBody, DeleteAppliance, applianceEnum
 from main import app
 from data_access.crud.crud_appliance import appliance_Manager
-from api.utils.appliance_utils import appliance_seq_num
+from api.utils.electricity_utils import appliance_seq_num
 from data_access.crud.crud_air_handler import air_handler_Manager
 from data_access.crud.crud_water_heater import water_heater_Manager
 from data_access.crud.crud_ac import ac_Manager
@@ -24,7 +24,7 @@ def create_appliance(request: AddApplianceRequestBody, db: Session = Depends(get
         appliance_Manager.createAppliance(db=db, obj_in=request)
         
         if request.appliance_type == applianceEnum.air_handler.value:
-            airHandlerObj = air_handler_Manager.createAirHandler(db=db, obj_in=request)
+            air_handler_Manager.createAirHandler(db=db, obj_in=request)
           
             if request.EER:
                 ac_Manager.createAC(db=db, obj_in=request)
