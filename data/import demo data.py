@@ -1,5 +1,4 @@
 import csv
-
 def generate_sql_inserts(csv_filepath, sql_filepath):
     with open(csv_filepath, 'r') as csvfile, open(sql_filepath, 'w') as sqlfile:
         reader = csv.reader(csvfile)
@@ -8,6 +7,10 @@ def generate_sql_inserts(csv_filepath, sql_filepath):
         for row in reader:
             try:
                 postal_code, city, state, latitude, longitude = row
+                # Replace single quotes with two single quotes for SQL
+                city = city.replace("'", "''")
+                postal_code = str(postal_code)
+
                 sql = f"INSERT INTO Valid_Postal (postal_code, city, state, latitude, longitude) VALUES ('{postal_code}', '{city}', '{state}', {latitude}, {longitude});\n"
                 sqlfile.write(sql)
             except Exception as e:
@@ -18,19 +21,19 @@ if __name__ == "__main__":
     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/postal_codes_inserts.sql'
     generate_sql_inserts(csv_path, sql_path)
 
-import csv
+
 def generate_household_inserts(tsv_file_path, output_sql_file_path):
     with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
         reader = csv.DictReader(tsv_file, delimiter='\t')
 
         for row in reader:
             email = row['email'].replace("'", "''")  # Escape single quotes
-            household_type = row['household_type']
+            household_type = row['household_type'].replace(" ", "_")
             postal = row['postal_code']
             sqft = row['footage']
-            offgrid_flag = 1 if row['utilities'] else 0
+            public_utilities = row['utilities']
 
-            sql_insert = f"INSERT INTO Household (email, household_type, postal, sqft, offgrid_flag) VALUES ('{email}', '{household_type}', '{postal}', {sqft}, {offgrid_flag});\n"
+            sql_insert = f"INSERT INTO Household (email, household_type, postal, sqft, public_utilities) VALUES ('{email}', '{household_type}', '{postal}', {sqft},'{public_utilities}');\n"
             sql_file.write(sql_insert)
 
 if __name__ == "__main__":
@@ -38,6 +41,31 @@ if __name__ == "__main__":
     sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_household.sql'
 
     generate_household_inserts(tsv_path, sql_path)
+
+def generate_thermal_inserts(tsv_file_path, output_sql_file_path):
+    with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
+        reader = csv.DictReader(tsv_file, delimiter='\t')
+
+        for row in reader:
+            email = row['email'].replace("'", "''")  # Escape single quotes
+            
+            if row.get('heating_temp'):
+                thermal_type = "heating"
+                setting = row['heating_temp']
+                sql_insert = f"INSERT INTO thermal (email, thermal_type, setting) VALUES ('{email}', '{thermal_type}', {setting});\n"
+                sql_file.write(sql_insert)
+            
+            if row.get('cooling_temp'):
+                thermal_type = "cooling"
+                setting = row['cooling_temp']
+                sql_insert = f"INSERT INTO thermal (email, thermal_type, setting) VALUES ('{email}', '{thermal_type}', {setting});\n" 
+                sql_file.write(sql_insert)
+
+if __name__ == "__main__":
+    tsv_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data/Household.tsv'
+    sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_thermal.sql'
+
+    generate_thermal_inserts(tsv_path, sql_path)
 
 
 def generate_appliance_inserts(tsv_file_path, output_sql_file_path):
@@ -48,10 +76,10 @@ def generate_appliance_inserts(tsv_file_path, output_sql_file_path):
             email = row['household_email'].replace("'", "''")  # Escape single quotes
             seq_num = row['appliance_number']
             manufacturer = row['manufacturer_name'].replace("'", "''")
-            model_name = row['model'].replace("'", "''") if row['model'] else ''
+            electricity_model = row['model'].replace("'", "''") if row['model'] else ''
             btu = row['btu']
 
-            sql_insert = f"INSERT INTO Appliance (email, seq_num, manufacturer, model_name, BTU) VALUES ('{email}', {seq_num}, '{manufacturer}', '{model_name}', {btu});\n"
+            sql_insert = f"INSERT INTO Appliance (email, seq_num, manufacturer, electricity_model, BTU) VALUES ('{email}', {seq_num}, '{manufacturer}', '{electricity_model}', {btu});\n"
             sql_file.write(sql_insert)
 
 if __name__ == "__main__":
@@ -77,7 +105,6 @@ if __name__ == "__main__":
 
     generate_manufacturer_inserts(tsv_path, sql_path)
 
-import csv
 
 def generate_air_handler_inserts(tsv_file_path, output_sql_file_path):
     with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
@@ -165,7 +192,7 @@ def generate_water_heater_inserts(tsv_file_path, output_sql_file_path):
                 email = row['household_email'].replace("'", "''")
                 seq_num = row['appliance_number']
                 tank_size = row['tank_size']
-                energy_source = row['energy_source']
+                energy_source = row['energy_source'].replace(" ", "_")
                 current_temp = row['temperature'] if row['temperature'] else 'NULL'
             
                 sql_insert =f"INSERT INTO Water_Heater (email, seq_num, tank_size, energy_source, current_temp) VALUES ('{email}', {seq_num}, {tank_size}, '{energy_source}', {current_temp});\n"
@@ -199,24 +226,6 @@ if __name__ == "__main__":
     
     generate_power_generator_inserts(tsv_path, sql_path)
 
-def generate_public_utility_inserts(tsv_file_path, output_sql_file_path):
-    with open(tsv_file_path, 'r') as tsv_file, open(output_sql_file_path, 'w') as sql_file:
-        reader = csv.DictReader(tsv_file, delimiter='\t')
-        next(reader)  # Skip the header row
-
-        for row in reader:
-            email = row['email'].replace("'", "''")  # Escape single quotes
-            utilities_type =row['utilities']
-
-            sql_insert = f"INSERT INTO Public_Utilities (email, utilities_type) VALUES ('{email}', '{utilities_type}');\n"        
-            sql_file.write(sql_insert)
-
-if __name__ == "__main__":
-    tsv_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data/Household.tsv'
-    sql_path = '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_public_utility.sql'
-    
-    generate_public_utility_inserts(tsv_path, sql_path)
-
 
 
 
@@ -238,7 +247,6 @@ if __name__ == "__main__":
         '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_heatpump.sql',
         '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_heater.sql',
         '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_power_generator.sql',  
-        '/Users/junita/Documents/projects/electricity_fastapi/data/Demo_Data_public_utility.sql', 
     ]
     combined_file_path ='/Users/junita/Documents/projects/electricity_fastapi/data/demo_data.sql'
 

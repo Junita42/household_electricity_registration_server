@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from database import connect
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 origins = ["*"]
 
@@ -15,22 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class CheckEmailRequestBody(BaseModel):
-    email: str
-
-# endpoint to check email existance
-@app.post("/emails")
-async def check_email(body: CheckEmailRequestBody):
-    print(body.email)
-    # check email in db
-    conn = connect()
-    cursor = conn.cursor()
-    query = "SELECT * FROM Household WHERE email = %s"
-    cursor.execute(query, (body.email,))
-    email_exists = cursor.fetchone() is not None
-
-    # Close the connection
-    cursor.close()
-    conn.close()
-
-    return {"email": body.email, "is_exist": email_exists}
+import api.controller.manufacturer # noqa
+import api.controller.household # noqa
+import api.controller.appliance # noqa
+import api.controller.power_generator # noqa

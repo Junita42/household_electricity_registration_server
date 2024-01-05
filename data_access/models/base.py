@@ -7,7 +7,6 @@ from data_access.models.heater import Heater # noqa
 from data_access.models.household import Household # noqa
 from data_access.models.manufacturer import Manufacturer # noqa
 from data_access.models.power_generator import Power_Generator # noqa
-from data_access.models.public_utility import Public_Utility # noqa
 from data_access.models.thermal import Thermal # noqa
 from data_access.models.valid_postal import Valid_Postal # noqa
 from data_access.models.water_heater import Water_Heater # noqa
