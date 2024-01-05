@@ -4,6 +4,5 @@ env/
 
 # cache
 migrations/__pycache__/
-*pycache*
-
+**/__pycache__/
 
