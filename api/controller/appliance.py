@@ -71,6 +71,7 @@ def delete_appliance(request:DeleteAppliance, db: Session = Depends(get_db)):
         
         appliance_Manager.deleteAppliance(db=db, obj_in=request)
         return {"message": f"{request.email} {request.appliance_type} {request.seq_num} deleted"}
+    
     except Exception as e:
         # Handle exceptions and rollback transactions if necessary
         raise HTTPException(status_code=400, detail=str(e))
