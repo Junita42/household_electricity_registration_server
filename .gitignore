@@ -3,6 +3,5 @@ env/
 .DS_Store
 
 # cache
-migrations/__pycache__/
 **/__pycache__/
 
